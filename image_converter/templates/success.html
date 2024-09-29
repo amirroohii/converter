@@ -1,0 +1,22 @@
+<!-- converter/templates/converter/success.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Images Converted</title>
+</head>
+<body>
+    <h1>Images Converted Successfully!</h1>
+
+    <h2>PNG Image:</h2>
+    <img src="{{ MEDIA_URL }}{{ png_image_path }}" alt="Converted PNG Image">
+    <a href="{{ MEDIA_URL }}{{ png_image_path }}" download>Download PNG</a>
+
+    <h2>JPEG Image:</h2>
+    <img src="{{ MEDIA_URL }}{{ jpeg_image_path }}" alt="Converted JPEG Image">
+    <a href="{{ MEDIA_URL }}{{ jpeg_image_path }}" download>Download JPEG</a>
+
+    <a href="{% url 'upload_image' %}">Upload another image</a>
+</body>
+</html>
