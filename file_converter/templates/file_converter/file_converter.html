@@ -1,0 +1,106 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}word to pdf{% endblock %}
+
+{% block extra_css %}
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    input[type="file"] {
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+     .file-upload {
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        width: 80%;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        margin: 20px auto;
+        transition: background-color 0.3s;
+    }
+    .file-upload:hover {
+        background-color: #f0f0f0;
+    }
+    input[type="file"] {
+        display: none;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</style>
+{% endblock %}
+
+{% block page_title %}Upload Word Document to Convert to PDF{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Upload Word Document</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="file-upload" id="file-upload">
+            <p>Drag & drop your Word document here or click to select</p>
+            <input type="file" name="file" id="file-input" accept=".doc,.docx">
+        </div>
+        <button type="submit">Convert to PDF</button>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+       <script>
+        const fileUpload = document.getElementById('file-upload');
+        const fileInput = document.getElementById('file-input');
+
+        fileUpload.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.style.backgroundColor = '#e0e0e0'; // Change color on drag over
+        });
+
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.style.backgroundColor = ''; // Reset color on drag leave
+        });
+
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.style.backgroundColor = ''; // Reset color after drop
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files; // Assign dropped files to the file input
+                fileUpload.querySelector('p').textContent = files[0].name; // Show file name
+            }
+        });
+    </script>
+{% endblock %}

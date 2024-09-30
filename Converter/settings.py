@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'image_converter',
+    'file_converter',
     'home'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
