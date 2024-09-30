@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Converter{% endblock %}</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* متن را در مرکز قرار می‌دهد */
+    color: #333; /* رنگ متن اصلی */
+}
+
+.container {
+    width: 80%;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.layout-header {
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+}
+
+.layout-header-nav {
+    display: flex;
+    justify-content: space-between; /* فاصله بین لوگو و عنوان */
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #007bff; /* رنگ آبی برای لوگو */
+    font-size: 1.2em; /* اندازه فونت لوگو */
+}
+
+.page-title h1 {
+    font-size: 1.5em; /* اندازه فونت عنوان صفحه */
+    color: #333;
+    margin: 0; /* حاشیه عنوان صفحه را حذف می‌کند */
+}
+
+.converter-icon {
+    /* استایل آیکون در صورت نیاز */
+}
+
+.main-title {
+    /* استایل عنوان اصلی در صورت نیاز */
+}
+
+footer {
+    margin-top: 20px;
+    color: #777;
+    padding: 10px 0; /* کمی padding به فوتر اضافه می‌کند */
+    background-color: #f8f9fa; /* رنگ پس‌زمینه فوتر */
+    border-top: 1px solid #e0e0e0; /* یک خط بالای فوتر */
+}
+
+/* استایل برای بلاک features */
+.features-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.feature {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left; /* متن داخل feature را چپ چین می‌کند */
+}
+
+.feature svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+    fill: #007bff; /* رنگ آیکون‌ها */
+}
+
+.feature h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.feature p {
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #555;
+}
+
+.change-color {
+    fill: #FEE7E5;
+}
+
+/* استایل برای لینک‌های تبدیل */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+nav li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #007bff;
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    background-color: #007bff;
+    color: white;
+}
+    </style>
+    {% block extra_css %}{% endblock %}
+
+</head>
+<body>
+    <header class="layout-header">
+        <nav class="layout-header-nav">
+            <div class="logo-wrapper">
+                <a class="logo img-logo" href="/">
+
+                    <span class="logo-text">Converter</span>
+                </a>
+            </div>
+            <div class="page-title">
+                <h1><span class="converter-icon"></span><span class="main-title js-main-title">{% block page_title %}Online  Converter{% endblock %}</span></h1>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <div class="container">
+        {% block content %}
+        <!-- محتوای اصلی صفحه اینجا قرار می‌گیرد -->
+        {% endblock %}
+
+    </div>
+ {% block features %}
+<!-- محتوای بخش ویژگی‌ها اینجا قرار می‌گیرد -->
+{% endblock %}
+    <footer>
+        <p>&copy; {% now "Y" %} Image Converter. All rights reserved.</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

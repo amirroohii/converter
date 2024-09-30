@@ -1,12 +1,9 @@
-<!-- converter/templates/converter/upload.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Upload Image</title>
-</head>
- <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -33,12 +30,21 @@
             flex-direction: column;
             align-items: center;
         }
-        input[type="file"] {
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
+        .file-upload {
+            border: 2px dashed #ccc;
             border-radius: 5px;
             width: 80%;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+        .file-upload:hover {
+            background-color: #f0f0f0;
+        }
+        input[type="file"] {
+            display: none; /* Hide the default file input */
         }
         button {
             background-color: #007bff;
@@ -58,15 +64,46 @@
             color: #777;
         }
     </style>
+</head>
 <body>
-<div class="container">
-     <h1>Upload Image</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
-    </form>
-</div>
+    <div class="container">
+        <h1>Upload Image</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="file-upload" id="file-upload">
+                <p>Drag & drop your files here or click to select</p>
+                <input type="file" name="image" id="file-input" accept="image/*">
+            </div>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
 
+    <script>
+        const fileUpload = document.getElementById('file-upload');
+        const fileInput = document.getElementById('file-input');
+
+        fileUpload.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.style.backgroundColor = '#e0e0e0'; // Change color on drag over
+        });
+
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.style.backgroundColor = ''; // Reset color on drag leave
+        });
+
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.style.backgroundColor = ''; // Reset color after drop
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files; // Assign dropped files to the file input
+                fileUpload.querySelector('p').textContent = files[0].name; // Show file name
+            }
+        });
+    </script>
 </body>
 </html>
