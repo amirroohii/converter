@@ -136,26 +136,124 @@ nav a:hover {
     background-color: #007bff;
     color: white;
 }
+    /* استایل‌های موجود را حفظ کنید */
+    .layout-header {
+        /* استایل‌های موجود */
+    }
+    .layout-header-nav {
+        /* استایل‌های موجود */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo-wrapper {
+        /* استایل‌های موجود */
+    }
+    .page-title {
+        /* استایل‌های موجود */
+    }
+
+    .layout-header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.menu-wrapper {
+    position: relative;
+}
+
+.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #0056b3;
+}
     </style>
     {% block extra_css %}{% endblock %}
 
 </head>
 <body>
-    <header class="layout-header">
-        <nav class="layout-header-nav">
-            <div class="logo-wrapper">
-                <a class="logo img-logo" href="/">
-
-                    <span class="logo-text">Converter</span>
-                </a>
-            </div>
-            <div class="page-title">
-                <h1><span class="converter-icon"></span><span class="main-title js-main-title">{% block page_title %}Online  Converter{% endblock %}</span></h1>
-            </div>
-        </nav>
-
-    </header>
-
+  <header class="layout-header">
+    <nav class="layout-header-nav">
+        <div class="logo-wrapper">
+            <a class="logo img-logo" href="/">
+                <span class="logo-text">Converter</span>
+            </a>
+        </div>
+        <div class="page-title">
+            <h1>
+                <span class="converter-icon"></span>
+                <span class="main-title js-main-title">{% block page_title %}Online Converter{% endblock %}</span>
+            </h1>
+        </div>
+        <div class="menu-wrapper">
+            <ul class="menu">
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Tools</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'upload_image' %}">Convert WebP to JPG</a>
+                        <a href="{% url 'upload_image' %}">Convert PNG to JPG</a>
+                        <a href="{% url 'upload_image' %}">Convert PDF to JPG</a>
+                        <a href="{% url 'file_converter' %}">Convert Word to PDF</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
     <div class="container">
         {% block content %}
@@ -166,10 +264,7 @@ nav a:hover {
  {% block features %}
 <!-- محتوای بخش ویژگی‌ها اینجا قرار می‌گیرد -->
 {% endblock %}
-    <footer>
-        <p>&copy; {% now "Y" %} Image Converter. All rights reserved.</p>
-    </footer>
-
+   {% include 'footer_component.html' %}
     {% block extra_js %}{% endblock %}
 </body>
 </html>

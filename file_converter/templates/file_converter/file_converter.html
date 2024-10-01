@@ -57,7 +57,51 @@
     button:hover {
         background-color: #0056b3;
     }
-</style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #007bff;
+            color: white;
+        }
 </style>
 {% endblock %}
 
@@ -65,7 +109,7 @@
 {% block content %}
 <div class="container">
     <h1>Upload Word Document</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="upload-form">
         {% csrf_token %}
         <div class="file-upload" id="file-upload">
             <p>Drag & drop your Word document here or click to select</p>
@@ -73,34 +117,72 @@
         </div>
         <button type="submit">Convert to PDF</button>
     </form>
+    <div id="success-message" style="display: none;">
+        <h1>Document Converted Successfully!</h1>
+        <h2>Converted PDF:</h2>
+        <a href="" id="download-link" download>Download PDF</a>
+        <br><br>
+        <a href="{% url 'file_converter' %}">Convert another document</a>
+    </div>
 </div>
 {% endblock %}
+
 {% block extra_js %}
-       <script>
-        const fileUpload = document.getElementById('file-upload');
-        const fileInput = document.getElementById('file-input');
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const fileUpload = document.getElementById('file-upload');
+    const fileInput = document.getElementById('file-input');
+    const uploadForm = document.getElementById('upload-form');
+    const successMessage = document.getElementById('success-message');
+    const downloadLink = document.getElementById('download-link');
 
-        fileUpload.addEventListener('click', () => {
-            fileInput.click();
-        });
+    fileUpload.addEventListener('click', () => {
+        fileInput.click();
+    });
 
-        fileUpload.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            fileUpload.style.backgroundColor = '#e0e0e0'; // Change color on drag over
-        });
+    fileUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUpload.style.backgroundColor = '#e0e0e0';
+    });
 
-        fileUpload.addEventListener('dragleave', () => {
-            fileUpload.style.backgroundColor = ''; // Reset color on drag leave
-        });
+    fileUpload.addEventListener('dragleave', () => {
+        fileUpload.style.backgroundColor = '';
+    });
 
-        fileUpload.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileUpload.style.backgroundColor = ''; // Reset color after drop
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files; // Assign dropped files to the file input
-                fileUpload.querySelector('p').textContent = files[0].name; // Show file name
+    fileUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUpload.style.backgroundColor = '';
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            fileUpload.querySelector('p').textContent = files[0].name;
+        }
+    });
+
+    uploadForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(uploadForm);
+
+        $.ajax({
+            url: '{% url "file_converter" %}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(response); // بررسی محتوای پاسخ
+                if (response.file_url) {
+                    successMessage.style.display = 'block';
+                    downloadLink.href = response.file_url;
+                    uploadForm.style.display = 'none';
+                } else {
+                    alert('File conversion failed. Please try again.');
+                }
+            },
+            error: function() {
+                alert('An error occurred while uploading the file.');
             }
         });
-    </script>
+    });
+</script>
 {% endblock %}

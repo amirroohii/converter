@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Upload Image</title>
+{% extends 'main.html' %}
+
+{% block page_title %}Upload Image{% endblock %}
+{% block extra_css %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,8 +63,9 @@
             color: #777;
         }
     </style>
-</head>
-<body>
+{% endblock %}
+{% block content %}
+
     <div class="container">
         <h1>Upload Image</h1>
         <form method="post" enctype="multipart/form-data">
@@ -78,6 +78,9 @@
         </form>
     </div>
 
+{% endblock %}
+
+{% block extra_js %}
     <script>
         const fileUpload = document.getElementById('file-upload');
         const fileInput = document.getElementById('file-input');
@@ -105,5 +108,4 @@
             }
         });
     </script>
-</body>
-</html>
+{% endblock %}

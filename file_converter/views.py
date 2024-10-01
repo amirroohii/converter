@@ -1,7 +1,9 @@
 import os
 import pypandoc
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.urls import reverse
+
 from .forms import UploadFileForm
 
 import io
@@ -12,6 +14,8 @@ from .forms import UploadFileForm
 from docx import Document
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+
+from docx2pdf import convert
 
 
 def convert_file(request):
@@ -34,18 +38,13 @@ def convert_file(request):
 
             # Convert the file to PDF
             output_path = os.path.splitext(file_path)[0] + '.pdf'
-            convert_docx_to_pdf(file_path, output_path)
+            convert(file_path, output_path)
 
             # Check if conversion succeeded
             if os.path.exists(output_path):
-                with open(output_path, 'rb') as pdf_file:
-                    response = HttpResponse(pdf_file.read(), content_type='application/pdf')
-                    response['Content-Disposition'] = f'attachment; filename="{os.path.basename(output_path)}"'
-
-                # Cleanup the temporary files
-                os.remove(file_path)
-                os.remove(output_path)
-                return response
+                # به جای برگرداندن فایل، URL آن را برمی‌گردانیم
+                file_url = request.build_absolute_uri(reverse('download_pdf', args=[os.path.basename(output_path)]))
+                return JsonResponse({'file_url': file_url})
 
     else:
         form = UploadFileForm()
@@ -53,18 +52,11 @@ def convert_file(request):
     return render(request, 'file_converter/file_converter.html', {'form': form})
 
 
-def convert_docx_to_pdf(docx_path, pdf_path):
-    doc = Document(docx_path)
-
-    packet = io.BytesIO()
-    can = canvas.Canvas(packet, pagesize=letter)
-
-    for paragraph in doc.paragraphs:
-        can.drawString(50, 700, paragraph.text)
-        can.showPage()
-
-    can.save()
-
-    packet.seek(0)
-    with open(pdf_path, 'wb') as f:
-        f.write(packet.read())
+def download_pdf(request, filename):
+    file_path = os.path.join('temp', filename)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as pdf_file:
+            response = HttpResponse(pdf_file.read(), content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
+    return HttpResponse("File not found", status=404)

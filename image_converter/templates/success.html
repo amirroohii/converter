@@ -1,13 +1,10 @@
 <!-- converter/templates/converter/success.html -->
+{% extends 'main.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Images Converted</title>
-</head>
-<style>
-        body {
+{% block page_title %}Images Converted{% endblock %}
+{% block extra_css %}
+    <style>
+    body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
@@ -52,7 +49,10 @@
             color: white;
         }
     </style>
-<body>
+{% endblock %}
+
+{% block content %}
+    <body>
     <h1>Images Converted Successfully!</h1>
 
     <h2>PNG Image:</h2>
@@ -65,4 +65,5 @@
 
     <a href="{% url 'upload_image' %}">Upload another image</a>
 </body>
-</html>
+{% endblock %}
+
