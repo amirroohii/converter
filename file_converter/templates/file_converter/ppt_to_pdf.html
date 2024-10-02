@@ -1,0 +1,194 @@
+{% extends 'main.html' %}
+
+{% block title %}تبدیل PowerPoint به PDF - Converter{% endblock %}
+
+{% block extra_css %}
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            margin-top: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .file-upload {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            width: 80%;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin: 20px auto;
+            transition: background-color 0.3s;
+        }
+        .file-upload:hover {
+            background-color: #f0f0f0;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Convert PowerPoint to PDF</h1>
+    <form method="post" enctype="multipart/form-data" id="upload-form">
+        {% csrf_token %}
+        <div class="file-upload" id="file-upload">
+            <p>Drag & drop your PowerPoint file here or click to select</p>
+            <input type="file" name="ppt_file" id="file-input" accept=".pptx,.ppt" required>
+        </div>
+        <button type="submit" id="convert-button">Convert to PDF</button>
+    </form>
+    <div id="loading" style="display: none;">
+        <p>Converting file, please wait...</p>
+    </div>
+    <div id="result" style="display: none;">
+        <h2>Conversion Result:</h2>
+        <div id="pdf-preview"></div>
+        <a href="" id="download-link" download style="display: none;">Download PDF</a>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('upload-form');
+    const fileInput = document.getElementById('file-input');
+    const fileUpload = document.getElementById('file-upload');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const pdfPreview = document.getElementById('pdf-preview');
+    const downloadLink = document.getElementById('download-link');
+    const convertButton = document.getElementById('convert-button');
+    const errorDisplay = document.getElementById('error-display');
+
+    // Drag and drop functionality (if needed - add your code here)
+    // ... (your drag and drop code) ...
+
+
+    fileUpload.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            updateFileName(e.target.files[0].name);
+        } else {
+            updateFileName(""); // Clear file name display if no file selected
+        }
+    });
+
+    function updateFileName(fileName) {
+        fileUpload.textContent = fileName ? `Selected file: ${fileName}` : 'Click to select a file or drag and drop here';
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+
+        if (fileInput.files.length === 0) {
+            displayError('Please select a file first.');
+            return;
+        }
+
+        loading.style.display = 'block';
+        result.style.display = 'none';
+        errorDisplay.style.display = 'none';
+        convertButton.disabled = true;
+
+        fetch('{% url "ppt_to_pdf" %}', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include', // Include credentials for CSRF (important, especially in development)
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Server error');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            loading.style.display = 'none';
+            result.style.display = 'block';
+            convertButton.disabled = false;
+
+            pdfPreview.innerHTML = `<embed src="${data.pdf_url}" type="application/pdf" width="100%" height="600px" />`;
+            downloadLink.href = data.pdf_url;
+            downloadLink.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            loading.style.display = 'none';
+            convertButton.disabled = false;
+            displayError(error.message);
+        });
+    });
+
+    function displayError(message) {
+        errorDisplay.textContent = message;
+        errorDisplay.style.display = 'block';
+    }
+});
+
+    </script>
+{% endblock %}

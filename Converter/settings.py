@@ -16,9 +16,19 @@ from pathlib import Path
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Ensure the MEDIA_ROOT directory exists
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+
+# Maximum size of the uploaded file (adjust as needed)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5 MB
+
+# Maximum size of the entire request body
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240  #
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -128,6 +138,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

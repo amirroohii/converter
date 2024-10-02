@@ -1,8 +1,18 @@
+import os
+
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
+from django.views.static import serve
+
 from . import views
 
 
 urlpatterns = [
-    path('word-to-pdf/', views.convert_file, name='file_converter'),
-    path('download/<str:filename>/', views.download_pdf, name='download_pdf'),
+    path('word-to-pdf/', views.convert_file, name='word_to_pdf'),
+    path('powerpoint-to-pdf/', views.ppt_to_pdf, name='ppt_to_pdf'),
+    path('download_pdf/<str:filename>/', serve, {'document_root': os.path.join(settings.MEDIA_ROOT, 'temp')},
+         name='download_pdf'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

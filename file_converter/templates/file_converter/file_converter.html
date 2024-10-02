@@ -113,7 +113,7 @@
         {% csrf_token %}
         <div class="file-upload" id="file-upload">
             <p>Drag & drop your Word document here or click to select</p>
-            <input type="file" name="file" id="file-input" accept=".doc,.docx">
+            <input type="file" name="file" id="file-input" accept=".doc,.docx" style="display: none;">
         </div>
         <button type="submit">Convert to PDF</button>
     </form>
@@ -122,10 +122,12 @@
         <h2>Converted PDF:</h2>
         <a href="" id="download-link" download>Download PDF</a>
         <br><br>
-        <a href="{% url 'file_converter' %}">Convert another document</a>
+        <a href="{% url 'word_to_pdf' %}">Convert another document</a>
     </div>
 </div>
 {% endblock %}
+
+
 
 {% block extra_js %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -139,6 +141,14 @@
     fileUpload.addEventListener('click', () => {
         fileInput.click();
     });
+
+        function updateFileName(fileName) {
+        const fileNameDisplay = document.createElement('p');
+        fileNameDisplay.textContent = `Selected file: ${fileName}`;
+        fileUpload.innerHTML = '';
+        fileUpload.appendChild(fileNameDisplay);
+    }
+
 
     fileUpload.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -164,7 +174,7 @@
         const formData = new FormData(uploadForm);
 
         $.ajax({
-            url: '{% url "file_converter" %}',
+            url: '{% url "word_to_pdf" %}',
             type: 'POST',
             data: formData,
             processData: false,
