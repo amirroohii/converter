@@ -128,7 +128,7 @@ def download_pdf(request, filename):
 #
 #         return response
 #
-#     return render(request, 'file_converter/ppt_to_pdf.html')
+#     return render(request, 'image_converter/ppt_to_pdf.html')
 
 # def ppt_to_pdf(request):
 #     if request.method == 'POST' and request.FILES.get('ppt_file'):
@@ -170,7 +170,7 @@ def download_pdf(request, filename):
 #             'filename': pdf_filename
 #         })
 #
-#     return render(request, 'file_converter/ppt_to_pdf.html')
+#     return render(request, 'image_converter/ppt_to_pdf.html')
 
 def ppt_to_pdf(request):
     conversion_error = None
@@ -280,4 +280,4 @@ def ppt_to_pdf(request):
 #             'filename': pdf_filename
 #         })
 #
-#     return render(request, 'file_converter/ppt_to_pdf.html')
+#     return render(request, 'image_converter/ppt_to_pdf.html')

@@ -3,6 +3,7 @@
 {% block title %}تبدیل PowerPoint به PDF - Converter{% endblock %}
 
 {% block extra_css %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
         body {
             font-family: Arial, sans-serif;
@@ -82,6 +83,73 @@
             background-color: #007bff;
             color: white;
         }
+
+   .other-tools-section {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .tool-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .tool-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #333;
+        padding: 10px;
+        width: 120px;
+        transition: transform 0.3s ease;
+    }
+    .tool-link:hover {
+        transform: translateY(-5px);
+    }
+    .tool-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #007bff; /* آبی برای هماهنگی با طرح سایت */
+        margin-bottom: 5px;
+    }
+    .tool-name {
+        font-size: 14px;
+        text-align: center;
+    }
+        .conversion-instructions {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.conversion-instructions h2 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.conversion-instructions p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.conversion-instructions ol {
+    padding-left: 20px;
+}
+
+.conversion-instructions li {
+    margin-bottom: 10px;
+    color: #444;
+}
+
     </style>{% endblock %}
 {% block content %}
 <div class="container">
@@ -103,7 +171,113 @@
         <a href="" id="download-link" download style="display: none;">Download PDF</a>
     </div>
 </div>
-{% endblock %}
+
+      <div class="conversion-instructions">
+        <h2>How to Convert PowerPoint to PDF</h2>
+        <p>Follow these simple steps to convert your PowerPoint presentations to PDF format:</p>
+        <ol style="text-align: left">
+            <li>Select the PowerPoint file (.ppt or .pptx) you want to convert by dragging and dropping it into the upload area or by clicking to browse your files.</li>
+            <li>Once your file is selected, click the "Convert to PDF" button to initiate the conversion process.</li>
+            <li>Wait for the conversion to complete. The duration may vary depending on the size and complexity of your presentation.</li>
+            <li>After the conversion is finished, a download link for your PDF file will appear.</li>
+            <li>Click the download link to save your newly converted PDF file to your device.</li>
+        </ol>
+        <p>Note: Our tool supports both .ppt and .pptx formats. The converted PDF will preserve the layout, formatting, and animations of your original PowerPoint presentation to the extent possible in a static PDF format.</p>
+    </div>
+<div class="other-tools-section">
+    <h2>Explore Our Tools Easily</h2>
+    <p>We offer a variety of conversion tools to help you with your file needs:</p>
+    <div class="tool-links">
+        <a href="{% url 'upload_image' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-image"></i>
+            </div>
+            Convert WebP to JPG
+        </a>
+        <a href="{% url 'upload_image' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-image"></i>
+            </div>
+            Convert PNG to JPG
+        </a>
+        <a href="{% url 'upload_image' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-image"></i>
+            </div>
+            Convert PDF to JPG
+        </a>
+        <a href="{% url 'jpg-to-pdf' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            Convert JPG to PDF
+        </a>
+        <a href="{% url 'word_to_pdf' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-word"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            Convert Word to PDF
+        </a>
+        <a href="{% url 'ppt_to_pdf' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-powerpoint"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            Convert PowerPoint to PDF
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-excel"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            Convert Excel to PDF
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-image"></i>
+            </div>
+            Convert PDF to PNG
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-image"></i>
+            </div>
+            Convert PDF to JPG
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-powerpoint"></i>
+            </div>
+            Convert PDF to PowerPoint
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-file-image"></i>
+            </div>
+            Convert PDF to PNG
+        </a>
+    </div>
+</div>{% endblock %}
 {% block extra_js %}
     <script>
    document.addEventListener('DOMContentLoaded', function() {
