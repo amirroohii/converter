@@ -263,38 +263,88 @@ def download_pdf(request, filename):
 #     else:
 #         form = UploadFileForm()
 #     return render(request, 'file_converter/ppt_to_pdf.html', {'form': form})
+# def ppt_to_pdf(request):
+#     if request.method == 'POST':
+#         form = UploadFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             ppt_file = request.FILES['file']
+#             ppt_file_path = os.path.join(settings.MEDIA_ROOT, ppt_file.name)
+#             with open(ppt_file_path, 'wb+') as destination:
+#                 for chunk in ppt_file.chunks():
+#                     destination.write(chunk)
+#
+#             # مسیر فایل PDF خروجی
+#             pdf_file_path = ppt_file_path.replace('.pptx', '.pdf')
+#
+#             # ایجاد PDF
+#             c = canvas.Canvas(pdf_file_path, pagesize=letter)
+#             presentation = Presentation(ppt_file_path)
+#
+#             # اضافه کردن اسلایدها به PDF
+#             for slide in presentation.slides:
+#                 c.drawString(100, 750, slide.shapes.title.text if slide.shapes.title else "No Title")
+#                 c.showPage()  # ایجاد صفحه جدید برای هر اسلاید
+#
+#             c.save()
+#
+#             # ایجاد لینک دانلود
+#             pdf_file_url = os.path.basename(pdf_file_path)  # فقط نام فایل را بگیرید
+#             return render(request, 'file_converter/success.html', {'pdf_file_url': pdf_file_url})
+#
+#     else:
+#         form = UploadFileForm()
+#     return render(request, 'file_converter/ppt_to_pdf.html', {'form': form})
+#
+# def download_ppt_to_pdf_file(request, filename):
+#     file_path = os.path.join(settings.MEDIA_ROOT, filename)
+#     return serve(request, filename, document_root=settings.MEDIA_ROOT)
+
 def ppt_to_pdf(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             ppt_file = request.FILES['file']
             ppt_file_path = os.path.join(settings.MEDIA_ROOT, ppt_file.name)
+
+            # Save the uploaded PPT file
             with open(ppt_file_path, 'wb+') as destination:
                 for chunk in ppt_file.chunks():
                     destination.write(chunk)
 
-            # مسیر فایل PDF خروجی
+            # Path for the output PDF file
             pdf_file_path = ppt_file_path.replace('.pptx', '.pdf')
 
-            # ایجاد PDF
+            # Create a PDF
             c = canvas.Canvas(pdf_file_path, pagesize=letter)
             presentation = Presentation(ppt_file_path)
 
-            # اضافه کردن اسلایدها به PDF
+            # Add slides to the PDF
             for slide in presentation.slides:
-                c.drawString(100, 750, slide.shapes.title.text if slide.shapes.title else "No Title")
-                c.showPage()  # ایجاد صفحه جدید برای هر اسلاید
+                # Draw the title, if it exists
+                title = slide.shapes.title.text if slide.shapes.title else "No Title"
+                c.drawString(100, 750, title)
+
+                # You can add more slide content here, such as text boxes, images, etc.
+
+                c.showPage()  # Create a new page for each slide
 
             c.save()
 
-            # ایجاد لینک دانلود
-            pdf_file_url = os.path.basename(pdf_file_path)  # فقط نام فایل را بگیرید
+            # Create download link
+            pdf_file_url = os.path.basename(pdf_file_path)  # Get only the file name
             return render(request, 'file_converter/success.html', {'pdf_file_url': pdf_file_url})
 
     else:
         form = UploadFileForm()
     return render(request, 'file_converter/ppt_to_pdf.html', {'form': form})
 
+
 def download_ppt_to_pdf_file(request, filename):
     file_path = os.path.join(settings.MEDIA_ROOT, filename)
-    return serve(request, filename, document_root=settings.MEDIA_ROOT)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as f:
+            response = HttpResponse(f.read(), content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+            return response
+    else:
+        return HttpResponse("File not found.", status=404)

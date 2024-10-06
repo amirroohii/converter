@@ -62,64 +62,113 @@ def upload_image(request):
 #     else:
 #         form = UploadFileForm()
 #     return render(request, 'image_converter/image_to_pdf.html', {'form': form})
-def jpg_to_pdf(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            # دریافت فایل
-            jpg_file = request.FILES['file']
-            jpg_file_path = os.path.join('media', jpg_file.name)
-
-            # ذخیره فایل JPG
-            with open(jpg_file_path, 'wb+') as destination:
-                for chunk in jpg_file.chunks():
-                    destination.write(chunk)
-
-            # تبدیل به PDF
-            pdf_file_path = os.path.join('media', jpg_file.name.replace('.jpg', '.pdf'))
-            img = Image.open(jpg_file_path).convert('RGB')
-            img.save(pdf_file_path)
-
-            return HttpResponse(
-                f'File uploaded and converted to PDF: <a href="/media/{jpg_file.name.replace(".jpg", ".pdf")}"> Download PDF </a>')
-    else:
-        form = UploadFileForm()
-    return render(request, 'image_converter/image_to_pdf.html', {'form': form})
-
-    # def jpg_to_pdf(request):
+# def jpg_to_pdf(request):
 #     if request.method == 'POST':
-#         if 'convert' in request.POST:
-#             # Get the file
+#         form = UploadFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # دریافت فایل
 #             jpg_file = request.FILES['file']
 #             jpg_file_path = os.path.join('media', jpg_file.name)
 #
-#             # Save the JPG file
+#             # ذخیره فایل JPG
 #             with open(jpg_file_path, 'wb+') as destination:
 #                 for chunk in jpg_file.chunks():
 #                     destination.write(chunk)
 #
-#             # Convert to PDF
+#             # تبدیل به PDF
 #             pdf_file_path = os.path.join('media', jpg_file.name.replace('.jpg', '.pdf'))
 #             img = Image.open(jpg_file_path).convert('RGB')
 #             img.save(pdf_file_path)
 #
-#             # Display conversion successful message and download link
-#             convert_message = "Conversion successful!"
-#             download_link = f'<a href="/media/{jpg_file.name.replace(".jpg", ".pdf")}">Download PDF file</a>'
-#
-#             return render(request, 'image_converter/image_to_pdf.html', {
-#                 'form': UploadFileForm(),
-#                 'file_selected': jpg_file.name,
-#                 'convert_message': convert_message,
-#                 'download_link': download_link
-#             })
-#         else:
-#             form = UploadFileForm(request.POST, request.FILES)
-#             if form.is_valid():
-#                 return render(request, 'image_converter/image_to_pdf.html', {
-#                     'form': form,
-#                     'file_selected': request.FILES['file'].name
-#                 })
+#             return HttpResponse(
+#                 f'File uploaded and converted to PDF: <a href="/media/{jpg_file.name.replace(".jpg", ".pdf")}"> Download PDF </a>')
 #     else:
 #         form = UploadFileForm()
 #     return render(request, 'image_converter/image_to_pdf.html', {'form': form})
+#
+#     # def jpg_to_pdf(request):
+
+
+# def jpg_to_pdf(request):
+#     if request.method == 'POST':
+#         form = UploadFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # دریافت فایل
+#             jpg_file = request.FILES['file']
+#             jpg_file_path = os.path.join('media', jpg_file.name)
+#
+#             # ذخیره فایل JPG
+#             with open(jpg_file_path, 'wb+') as destination:
+#                 for chunk in jpg_file.chunks():
+#                     destination.write(chunk)
+#
+#             # تبدیل به PDF
+#             pdf_file_path = os.path.join('media', jpg_file.name.replace('.jpg', '.pdf'))
+#             img = Image.open(jpg_file_path).convert('RGB')
+#             img.save(pdf_file_path)
+#
+#             # Return JSON response with the download URL
+#             return JsonResponse({'file_url': f'/media/{jpg_file.name.replace(".jpg", ".pdf")}'})
+#         else:
+#             return JsonResponse({'error': 'Invalid form submission.'}, status=400)
+#     else:
+#         form = UploadFileForm()
+#     return render(request, 'image_converter/image_to_pdf.html', {'form': form})
+#
+# def jpg_to_pdf(request):
+#     if request.method == 'POST':
+#         form = UploadFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # دریافت فایل
+#             jpg_file = request.FILES['file']
+#             jpg_file_path = os.path.join('media', jpg_file.name)
+#
+#             # ذخیره فایل JPG
+#             with open(jpg_file_path, 'wb+') as destination:
+#                 for chunk in jpg_file.chunks():
+#                     destination.write(chunk)
+#
+#             # تبدیل به PDF
+#             pdf_file_path = os.path.join('media', jpg_file.name.replace('.jpg', '.pdf'))
+#             img = Image.open(jpg_file_path).convert('RGB')
+#             img.save(pdf_file_path)
+#
+#             # ساخت URL برای فایل PDF
+#             pdf_file_url = f'/media/{jpg_file.name.replace(".jpg", ".pdf")}'
+#
+#             # بازگشت پاسخ JSON با URL فایل PDF
+#             return JsonResponse({'file_url': pdf_file_url})
+#         else:
+#             return JsonResponse({'error': 'Invalid form submission.'}, status=400)
+#     else:
+#         form = UploadFileForm()
+#     return render(request, 'image_converter/image_to_pdf.html', {'form': form})
+
+def jpg_to_pdf(request):
+    if request.method == 'POST':
+        # Create a form instance from the request
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            jpg_file = request.FILES['file']
+            jpg_file_path = os.path.join(settings.MEDIA_ROOT, jpg_file.name)
+
+            # Save the uploaded JPG file
+            with open(jpg_file_path, 'wb+') as destination:
+                for chunk in jpg_file.chunks():
+                    destination.write(chunk)
+
+            # Convert to PDF
+            pdf_file_path = jpg_file_path.replace('.jpg', '.pdf')
+            img = Image.open(jpg_file_path).convert('RGB')
+            img.save(pdf_file_path)
+
+            # Create URL for the PDF file
+            pdf_file_url = f'/media/{os.path.basename(pdf_file_path)}'  # Use the correct URL for serving media files
+
+            return JsonResponse({'file_url': pdf_file_url})
+        else:
+            return JsonResponse({'error': 'Invalid form submission.'}, status=400)
+
+    else:
+        form = UploadFileForm()
+    return render(request, 'image_converter/image_to_pdf.html', {'form': form})
