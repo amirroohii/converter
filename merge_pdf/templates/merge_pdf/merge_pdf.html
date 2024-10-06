@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block page_title %}Merge PDF{% endblock %}
+
+{% block content %}
+    <div class="container">
+     <h1>Merge PDF Files</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- This will render the file input with 'multiple' attribute -->
+        <button type="submit">Merge PDFs</button>
+    </form>
+    </div>
+
+{% include 'include/tools_component.html' %}
+{% endblock %}

@@ -1,3 +1,57 @@
+{#<style>#}
+{#    .tool-links {#}
+{#        display: flex;#}
+{#        flex-wrap: wrap;#}
+{#        justify-content: center;#}
+{#        gap: 20px;#}
+{#        margin-top: 20px;#}
+{#    }#}
+{#    .tool-link {#}
+{#        display: flex;#}
+{#        flex-direction: column;#}
+{#        align-items: center;#}
+{#        text-decoration: none;#}
+{#        color: #333;#}
+{#        padding: 10px;#}
+{#        width: 120px;#}
+{#        transition: transform 0.3s ease;#}
+{#        border: none;  /* Remove the border */#}
+{#        background: none; /* Remove any background */#}
+{#    }#}
+{#    .tool-link:hover {#}
+{#        transform: translateY(-5px);#}
+{#        background-color: #f0f0f0; /* Optional: Add a hover background color */#}
+{#    }#}
+{#    .tool-icon {#}
+{#        width: 50px;#}
+{#        height: 50px;#}
+{#        display: flex;#}
+{#        align-items: center;#}
+{#        justify-content: center;#}
+{#        font-size: 24px;#}
+{#        color: #007bff; /* Blue for site theme */#}
+{#        margin-bottom: 5px;#}
+{#    }#}
+{#    .tool-name {#}
+{#        font-size: 14px;#}
+{#        text-align: center;#}
+{#    }#}
+{#    /* Updated color styles for icons */#}
+{#    .tool-icon i.fa-file-word { color: #2b579a; }#}
+{#    .tool-icon i.fa-file-excel { color: #217346; }#}
+{#    .tool-icon i.fa-file-powerpoint { color: #d24726; }#}
+{#    .tool-icon i.fa-file-image { color: #44a8b3; }#}
+{#    .tool-icon i.fa-file-pdf { color: #f40f02; }#}
+{#    .tool-icon i.fa-file-alt { color: #2196F3; }#}
+{#    .tool-icon i.fa-compress { color: #9C27B0; }#}
+{#    .tool-icon i.fa-trash-alt { color: #F44336; }#}
+{#    .tool-icon i.fa-sync { color: #00BCD4; }#}
+{#    .tool-icon i.fa-wrench { color: #795548; }#}
+{#    .tool-icon i.fa-lock, .tool-icon i.fa-unlock { color: #FFC107; }#}
+{#    .tool-icon i.fa-cut { color: #FF5722; }#}
+{#    .tool-icon i.fa-plus { color: #4CAF50; }#}
+{#    .tool-icon i.fa-arrow-right { color: #666; }#}
+{#</style>#}
 <style>
     .tool-links {
         display: flex;
@@ -15,120 +69,220 @@
         padding: 10px;
         width: 120px;
         transition: transform 0.3s ease;
-        border: none;  /* Remove the border */
-        background: none; /* Remove any background */
+        border: none;
+        background: none;
     }
     .tool-link:hover {
         transform: translateY(-5px);
-        background-color: #f0f0f0; /* Optional: Add a hover background color */
+        background-color: #f0f0f0;
     }
     .tool-icon {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
-        color: #007bff; /* Blue for site theme */
-        margin-bottom: 5px;
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+    .icon-small {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        font-size: 18px;
+        background-color: white;
+        border-radius: 50%;
+        padding: 3px;
     }
     .tool-name {
         font-size: 14px;
         text-align: center;
     }
-</style>
 
-    <div class="other-tools-section">
-        <h2>Explore Our Tools Easily</h2>
-        <p>We offer a variety of conversion tools to help you with your file needs:</p>
-        <div class="tool-links">
-            <a href="{% url 'upload_image' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-image"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert WebP to JPG
-            </a>
-            <a href="{% url 'upload_image' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-image"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert PNG to JPG
-            </a>
-            <a href="{% url 'upload_image' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert PDF to JPG
-            </a>
-            <a href="{% url 'jpg-to-pdf' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-image"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert JPG to PDF
-            </a>
-            <a href="{% url 'word_to_pdf' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-word"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert Word to PDF
-            </a>
-            <a href="{% url 'ppt_to_pdf' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-powerpoint"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert PowerPoint to PDF
-            </a>
-            <a href="{% url 'x_to_pdf' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-excel"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert Excel to PDF
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert PDF to PNG
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert PDF to JPG
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-powerpoint"></i>
-                </div>
-                Convert PDF to PowerPoint
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert PDF to PNG
-            </a>
-        </div>
+    /* Icon colors */
+    .tool-icon i.fa-file-word { color: #2b579a; }
+    .tool-icon i.fa-file-excel { color: #217346; }
+    .tool-icon i.fa-file-powerpoint { color: #d24726; }
+    .tool-icon i.fa-file-image { color: #44a8b3; }
+    .tool-icon i.fa-file-pdf { color: #f40f02; }
+    .tool-icon i.fa-file-alt { color: #2196F3; }
+</style>
+{##}
+{#    <div class="other-tools-section">#}
+{#        <h2>Explore Our Tools Easily</h2>#}
+{#        <p>We offer a variety of conversion tools to help you with your file needs:</p>#}
+{#        <div class="tool-links">#}
+{#            <a href="{% url 'upload_image' %}" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                </div>#}
+{#                Convert WebP to JPG#}
+{#            </a>#}
+{#            <a href="{% url 'upload_image' %}" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                </div>#}
+{#                Convert PNG to JPG#}
+{#            </a>#}
+{#            <a href="{% url 'upload_image' %}" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                </div>#}
+{#                Convert PDF to JPG#}
+{#            </a>#}
+{#            <a href="{% url 'jpg-to-pdf' %}" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                </div>#}
+{#                Convert JPG to PDF#}
+{#            </a>#}
+{#            <a href="{% url 'word_to_pdf' %}" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-word"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                </div>#}
+{#                Convert Word to PDF#}
+{#            </a>#}
+{#            <a href="{% url 'ppt_to_pdf' %}" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-powerpoint"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                </div>#}
+{#                Convert PowerPoint to PDF#}
+{#            </a>#}
+{#            <a href="{% url 'x_to_pdf' %}" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-excel"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                </div>#}
+{#                Convert Excel to PDF#}
+{#            </a>#}
+{#            <a href="" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                </div>#}
+{#                Convert PDF to PNG#}
+{#            </a>#}
+{#            <a href="" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                </div>#}
+{#                Convert PDF to JPG#}
+{#            </a>#}
+{#            <a href="" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-powerpoint"></i>#}
+{#                </div>#}
+{#                Convert PDF to PowerPoint#}
+{#            </a>#}
+{#            <a href="" class="tool-link">#}
+{#                <div class="tool-icon">#}
+{#                    <i class="fas fa-file-pdf"></i>#}
+{#                    <i class="fas fa-arrow-right"></i>#}
+{#                    <i class="fas fa-file-image"></i>#}
+{#                </div>#}
+{#                Convert PDF to PNG#}
+{#            </a>#}
+{#        </div>#}
+{#    </div>#}
+<div class="other-tools-section">
+    <h2>Explore Our Tools Easily</h2>
+    <p>We offer a variety of conversion tools to help you with your file needs:</p>
+    <div class="tool-links">
+        <a href="{% url 'upload_image' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-file-image icon-small"></i>
+            </div>
+            <span class="tool-name">WebP to JPG</span>
+        </a>
+        <a href="{% url 'upload_image' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-file-image icon-small"></i>
+            </div>
+            <span class="tool-name">PNG to JPG</span>
+        </a>
+        <a href="{% url 'upload_image' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-file-pdf icon-small"></i>
+            </div>
+            <span class="tool-name">PDF to JPG</span>
+        </a>
+        <a href="{% url 'jpg-to-pdf' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-file-image icon-small"></i>
+            </div>
+            <span class="tool-name">JPG to PDF</span>
+        </a>
+        <a href="{% url 'word_to_pdf' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-file-word icon-small"></i>
+            </div>
+            <span class="tool-name">Word to PDF</span>
+        </a>
+        <a href="{% url 'ppt_to_pdf' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-file-powerpoint icon-small"></i>
+            </div>
+            <span class="tool-name">PowerPoint to PDF</span>
+        </a>
+        <a href="{% url 'x_to_pdf' %}" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+                <i class="fas fa-file-excel icon-small"></i>
+            </div>
+            <span class="tool-name">Excel to PDF</span>
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-file-pdf icon-small"></i>
+            </div>
+            <span class="tool-name">PDF to PNG</span>
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-file-pdf icon-small"></i>
+            </div>
+            <span class="tool-name">PDF to JPG</span>
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-powerpoint"></i>
+                <i class="fas fa-file-pdf icon-small"></i>
+            </div>
+            <span class="tool-name">PDF to PowerPoint</span>
+        </a>
+        <a href="" class="tool-link">
+            <div class="tool-icon">
+                <i class="fas fa-file-image"></i>
+                <i class="fas fa-file-pdf icon-small"></i>
+            </div>
+            <span class="tool-name">PDF to PNG</span>
+        </a>
     </div>
+</div>
