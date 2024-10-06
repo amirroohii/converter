@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from reportlab.pdfgen import canvas
 
-from .forms import ImageUploadForm
+from .forms import ImageUploadForm, UploadFileForm
 from PIL import Image
 
 
@@ -39,67 +39,87 @@ def upload_image(request):
     return render(request, 'uploads.html', {'form': form})
 
 
-def image_to_pdf(request):
+# def jpg_to_pdf(request):
+#     if request.method == 'POST':
+#         form = UploadFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # دریافت فایل
+#             jpg_file = request.FILES['file']
+#             jpg_file_path = os.path.join('media', jpg_file.name)
+#
+#          # ذخیره فایل JPG
+#             with open(jpg_file_path, 'wb+') as destination:
+#                 for chunk in jpg_file.chunks():
+#                     destination.write(chunk)
+#
+#                 # تبدیل به PDF
+#             pdf_file_path = os.path.join('media', jpg_file.name.replace('.jpg', '.pdf'))
+#             img = Image.open(jpg_file_path).convert('RGB')
+#             img.save(pdf_file_path)
+#
+#             return HttpResponse(
+#                 f'File uploaded and converted to PDF: <a href="/media/{jpg_file.name.replace(".jpg", ".pdf")}"> Download PDF </a>')
+#     else:
+#         form = UploadFileForm()
+#     return render(request, 'image_converter/image_to_pdf.html', {'form': form})
+def jpg_to_pdf(request):
     if request.method == 'POST':
-        form = ImageUploadForm(request.POST, request.FILES)
+        form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            image_file = request.FILES['image']
-            return convert_jpg_to_pdf(image_file)
+            # دریافت فایل
+            jpg_file = request.FILES['file']
+            jpg_file_path = os.path.join('media', jpg_file.name)
+
+            # ذخیره فایل JPG
+            with open(jpg_file_path, 'wb+') as destination:
+                for chunk in jpg_file.chunks():
+                    destination.write(chunk)
+
+            # تبدیل به PDF
+            pdf_file_path = os.path.join('media', jpg_file.name.replace('.jpg', '.pdf'))
+            img = Image.open(jpg_file_path).convert('RGB')
+            img.save(pdf_file_path)
+
+            return HttpResponse(
+                f'File uploaded and converted to PDF: <a href="/media/{jpg_file.name.replace(".jpg", ".pdf")}"> Download PDF </a>')
     else:
-        form = ImageUploadForm()
-    return render(request, 'file_converter/image_to_pdf.html', {'form': form})
+        form = UploadFileForm()
+    return render(request, 'image_converter/image_to_pdf.html', {'form': form})
 
-
-def convert_jpg_to_pdf(image_file):
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="converted.pdf"'
-
-    pdf_canvas = canvas.Canvas(response)
-
-    image = Image.open(image_file)
-    image_path = 'temp_image.jpg'
-    image.save(image_path)
-
-    pdf_canvas.drawImage(image_path, 0, 0, width=image.width, height=image.height)
-    pdf_canvas.showPage()
-    pdf_canvas.save()
-
-    os.remove(image_path)
-
-    return response
-
-
-
-def convert_jpg_to_pdf(image):
-    # Create a unique filename for the PDF
-    filename = f"{uuid.uuid4()}.pdf"
-    output_path = os.path.join(settings.MEDIA_ROOT, 'pdfs', filename)
-
-    # Ensure the output directory exists
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-
-    # Open the image using Pillow
-    with Image.open(image) as img:
-        # Convert image to RGB (removes alpha channel if present)
-        rgb_im = img.convert('RGB')
-        # Save the image as PDF
-        rgb_im.save(output_path, 'PDF', resolution=100.0)
-
-    # Return the relative path
-    return os.path.join('pdfs', filename)
-
-
-logger = logging.getLogger(__name__)
-
-@csrf_exempt
-def convert_jpg_to_pdf_view(request):
-    if request.method == 'POST' and request.FILES.get('image'):
-        image = request.FILES['image']
-        try:
-            pdf_path = convert_jpg_to_pdf(image)
-            pdf_url = request.build_absolute_uri(settings.MEDIA_URL + pdf_path)
-            return JsonResponse({'success': True, 'pdf_url': pdf_url})
-        except Exception as e:
-            logger.error(f"Error converting image to PDF: {str(e)}", exc_info=True)
-            return JsonResponse({'success': False, 'error': str(e)})
-    return JsonResponse({'success': False, 'error': 'No file uploaded'})
+    # def jpg_to_pdf(request):
+#     if request.method == 'POST':
+#         if 'convert' in request.POST:
+#             # Get the file
+#             jpg_file = request.FILES['file']
+#             jpg_file_path = os.path.join('media', jpg_file.name)
+#
+#             # Save the JPG file
+#             with open(jpg_file_path, 'wb+') as destination:
+#                 for chunk in jpg_file.chunks():
+#                     destination.write(chunk)
+#
+#             # Convert to PDF
+#             pdf_file_path = os.path.join('media', jpg_file.name.replace('.jpg', '.pdf'))
+#             img = Image.open(jpg_file_path).convert('RGB')
+#             img.save(pdf_file_path)
+#
+#             # Display conversion successful message and download link
+#             convert_message = "Conversion successful!"
+#             download_link = f'<a href="/media/{jpg_file.name.replace(".jpg", ".pdf")}">Download PDF file</a>'
+#
+#             return render(request, 'image_converter/image_to_pdf.html', {
+#                 'form': UploadFileForm(),
+#                 'file_selected': jpg_file.name,
+#                 'convert_message': convert_message,
+#                 'download_link': download_link
+#             })
+#         else:
+#             form = UploadFileForm(request.POST, request.FILES)
+#             if form.is_valid():
+#                 return render(request, 'image_converter/image_to_pdf.html', {
+#                     'form': form,
+#                     'file_selected': request.FILES['file'].name
+#                 })
+#     else:
+#         form = UploadFileForm()
+#     return render(request, 'image_converter/image_to_pdf.html', {'form': form})

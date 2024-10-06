@@ -244,6 +244,7 @@ nav a:hover {
     width: 20px;
     text-align: center;
 }
+
 .about-us-container {
     max-width: 1200px;
     margin: 40px auto;
@@ -330,8 +331,8 @@ nav a:hover {
                 <ul>
                     <li><a href="{% url 'word_to_pdf' %}"><i class="fas fa-file-word"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> Word to PDF</a></li>
                     <li><a href="#"><i class="fas fa-file-excel"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> Excel to PDF</a></li>
-                    <li><a href="#"><i class="fas fa-file-powerpoint"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> PowerPoint to PDF</a></li>
-                    <li><a href="#"><i class="fas fa-file-image"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> JPG to PDF</a></li>
+                    <li><a href="{% url 'ppt_to_pdf' %}"><i class="fas fa-file-powerpoint"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> PowerPoint to PDF</a></li>
+                    <li><a href="{% url 'jpg-to-pdf' %}"><i class="fas fa-file-image"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> JPG to PDF</a></li>
                     <li><a href="#"><i class="fas fa-drafting-compass"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> AutoCAD to PDF</a></li>
                 </ul>
             </div>

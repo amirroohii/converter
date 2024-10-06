@@ -1,12 +1,10 @@
 {% extends 'main.html' %}
 {% load static %}
 
-{% block title %}word to pdf{% endblock %}
+{% block title %}Convert Word to PDF{% endblock %}
 
 {% block extra_css %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-     <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -24,13 +22,11 @@
         }
         h1 {
             color: #333;
-        }
-        h2 {
-            color: #555;
-            margin-top: 20px;
+            font-size: 28px; /* افزایش اندازه فونت */
+            margin-bottom: 20px;
         }
         .file-upload {
-            border: 2px dashed #ccc;
+            border: 2px dashed #007bff; /* رنگ حاشیه */
             border-radius: 5px;
             width: 80%;
             padding: 20px;
@@ -40,7 +36,7 @@
             transition: background-color 0.3s;
         }
         .file-upload:hover {
-            background-color: #f0f0f0;
+            background-color: #e9f5ff; /* رنگ پس‌زمینه هنگام هاور */
         }
         input[type="file"] {
             display: none;
@@ -52,33 +48,32 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.3s;
+            font-size: 16px; /* افزایش اندازه فونت */
         }
         button:hover {
             background-color: #0056b3;
         }
-        a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-            padding: 10px;
-            border: 1px solid #007bff;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-            transition: background-color 0.3s, color 0.3s;
+        .conversion-instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        a:hover {
-            background-color: #007bff;
-            color: white;
+        .conversion-instructions h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 15px;
         }
-        ol {
+        .conversion-instructions p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .conversion-instructions ol {
+            padding-left: 20px;
             text-align: left;
-            margin: 20px auto;
-            display: inline-block;
-            padding: 0;
         }
-
           .other-tools-section {
         font-family: Arial, sans-serif;
         text-align: center;
@@ -117,43 +112,15 @@
         font-size: 14px;
         text-align: center;
     }
-
-        .conversion-instructions {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.conversion-instructions h2 {
-    color: #333;
-    font-size: 22px;
-    margin-bottom: 15px;
-}
-
-.conversion-instructions p {
-    color: #666;
-    margin-bottom: 15px;
-}
-
-.conversion-instructions ol {
-    padding-left: 20px;
-}
-
-.conversion-instructions li {
-    margin-bottom: 10px;
-    color: #444;
-}
     </style>
 {% endblock %}
 
+
 {% block page_title %}Upload Word Document to Convert to PDF{% endblock %}
 
+
 {% block content %}
-
     <h1>Upload Word Document</h1>
-
     <form method="post" enctype="multipart/form-data" id="upload-form">
         {% csrf_token %}
         <div class="file-upload" id="file-upload">
@@ -174,7 +141,7 @@
     <div class="conversion-instructions">
         <h2>How to Convert Word to PDF</h2>
         <p>Follow these simple steps to convert your Word documents to PDF format:</p>
-        <ol style="text-align: left">
+        <ol>
             <li>Select the Word document (.doc or .docx) you want to convert by dragging and dropping it into the upload area or by clicking to browse your files.</li>
             <li>Once your file is selected, click the "Convert to PDF" button to start the conversion process.</li>
             <li>Wait for the conversion to complete. This usually takes a few seconds, depending on the size of your document.</li>
@@ -183,7 +150,7 @@
         </ol>
         <p>Note: Our tool supports both .doc and .docx formats. The converted PDF will maintain the formatting of your original Word document as closely as possible.</p>
     </div>
-
+ <div class="container">
 <div class="other-tools-section">
     <h2>Explore Our Tools Easily</h2>
     <p>We offer a variety of conversion tools to help you with your file needs:</p>
@@ -280,8 +247,6 @@
 </div>
 {% endblock %}
 
-
-
 {% block extra_js %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -295,13 +260,10 @@
         fileInput.click();
     });
 
-        function updateFileName(fileName) {
-        const fileNameDisplay = document.createElement('p');
-        fileNameDisplay.textContent = `Selected file: ${fileName}`;
-        fileUpload.innerHTML = '';
-        fileUpload.appendChild(fileNameDisplay);
-    }
-
+    fileInput.addEventListener('change', function() {
+        const fileName = this.files.length > 0 ? this.files[0].name : 'No file selected';
+        fileUpload.querySelector('p').textContent = `Selected file: ${fileName}`;
+    });
 
     fileUpload.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -318,7 +280,7 @@
         const files = e.dataTransfer.files;
         if (files.length > 0) {
             fileInput.files = files;
-            fileUpload.querySelector('p').textContent = files[0].name;
+            fileUpload.querySelector('p').textContent = `Selected file: ${files[0].name}`;
         }
     });
 
@@ -333,7 +295,6 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                console.log(response); // بررسی محتوای پاسخ
                 if (response.file_url) {
                     successMessage.style.display = 'block';
                     downloadLink.href = response.file_url;

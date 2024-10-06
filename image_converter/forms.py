@@ -7,3 +7,6 @@ class ImageUploadForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ['image']
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

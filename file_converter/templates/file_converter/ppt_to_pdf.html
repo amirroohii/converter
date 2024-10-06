@@ -1,10 +1,11 @@
 {% extends 'main.html' %}
 
+
 {% block title %}تبدیل PowerPoint به PDF - Converter{% endblock %}
 
 {% block extra_css %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -22,160 +23,113 @@
         }
         h1 {
             color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-        h2 {
-            color: #555;
-            margin-top: 20px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .file-upload {
+        .upload-area {
             border: 2px dashed #ccc;
-            border-radius: 5px;
-            width: 80%;
-            padding: 20px;
-            text-align: center;
+            padding: 40px;
+            background-color: #f9f9f9;
             cursor: pointer;
-            margin: 20px auto;
-            transition: background-color 0.3s;
+            margin-bottom: 20px;
         }
-        .file-upload:hover {
-            background-color: #f0f0f0;
-        }
-        input[type="file"] {
+        .inputfile {
             display: none;
         }
-        button {
+        label {
+            color: #666;
+            font-size: 16px;
+        }
+        .convert-button {
             background-color: #007bff;
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
         }
-        button:hover {
+        .convert-button:hover {
             background-color: #0056b3;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-            padding: 10px;
-            border: 1px solid #007bff;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        a:hover {
-            background-color: #007bff;
-            color: white;
-        }
-
-   .other-tools-section {
-        font-family: Arial, sans-serif;
-        text-align: center;
-    }
-    .tool-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 20px;
-    }
-    .tool-link {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: #333;
-        padding: 10px;
-        width: 120px;
-        transition: transform 0.3s ease;
-    }
-    .tool-link:hover {
-        transform: translateY(-5px);
-    }
-    .tool-icon {
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        color: #007bff; /* آبی برای هماهنگی با طرح سایت */
-        margin-bottom: 5px;
-    }
-    .tool-name {
-        font-size: 14px;
-        text-align: center;
-    }
         .conversion-instructions {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .conversion-instructions h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        .conversion-instructions p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .conversion-instructions ol {
+            padding-left: 20px;
+            text-align: left;
+        }
+        .other-tools-section {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .tool-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .tool-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            width: 120px;
+            transition: transform 0.3s ease;
+        }
+        .tool-link:hover {
+            transform: translateY(-5px);
+        }
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #007bff; /* آبی برای هماهنگی با طرح سایت */
+            margin-bottom: 5px;
+        }
+        .tool-name {
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
 
-.conversion-instructions h2 {
-    color: #333;
-    font-size: 22px;
-    margin-bottom: 15px;
-}
-
-.conversion-instructions p {
-    color: #666;
-    margin-bottom: 15px;
-}
-
-.conversion-instructions ol {
-    padding-left: 20px;
-}
-
-.conversion-instructions li {
-    margin-bottom: 10px;
-    color: #444;
-}
-
-    </style>{% endblock %}
 {% block content %}
 <div class="container">
-    <h1>Convert PowerPoint to PDF</h1>
-    <form method="post" enctype="multipart/form-data" id="upload-form">
+    <h1>Upload PowerPoint Document</h1>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="file-upload" id="file-upload">
-            <p>Drag & drop your PowerPoint file here or click to select</p>
-            <input type="file" name="ppt_file" id="file-input" accept=".pptx,.ppt" required>
+        <div class="upload-area" id="uploadfile">
+            <input type="file" name="file" id="file" class="inputfile" />
+            <label for="file" id="file-label">Drag & drop your PowerPoint document here or click to select</label>
         </div>
-        <button type="submit" id="convert-button">Convert to PDF</button>
+        <button type="submit" class="convert-button">Convert to PDF</button>
     </form>
-    <div id="loading" style="display: none;">
-        <p>Converting file, please wait...</p>
-    </div>
-    <div id="result" style="display: none;">
-        <h2>Conversion Result:</h2>
-        <div id="pdf-preview"></div>
-        <a href="" id="download-link" download style="display: none;">Download PDF</a>
-    </div>
-</div>
 
-      <div class="conversion-instructions">
+    <div class="conversion-instructions">
         <h2>How to Convert PowerPoint to PDF</h2>
         <p>Follow these simple steps to convert your PowerPoint presentations to PDF format:</p>
-        <ol style="text-align: left">
+        <ol>
             <li>Select the PowerPoint file (.ppt or .pptx) you want to convert by dragging and dropping it into the upload area or by clicking to browse your files.</li>
             <li>Once your file is selected, click the "Convert to PDF" button to initiate the conversion process.</li>
             <li>Wait for the conversion to complete. The duration may vary depending on the size and complexity of your presentation.</li>
@@ -184,185 +138,82 @@
         </ol>
         <p>Note: Our tool supports both .ppt and .pptx formats. The converted PDF will preserve the layout, formatting, and animations of your original PowerPoint presentation to the extent possible in a static PDF format.</p>
     </div>
-<div class="other-tools-section">
-    <h2>Explore Our Tools Easily</h2>
-    <p>We offer a variety of conversion tools to help you with your file needs:</p>
-    <div class="tool-links">
-        <a href="{% url 'upload_image' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-image"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert WebP to JPG
-        </a>
-        <a href="{% url 'upload_image' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-image"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PNG to JPG
-        </a>
-        <a href="{% url 'upload_image' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to JPG
-        </a>
-        <a href="{% url 'jpg-to-pdf' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-image"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert JPG to PDF
-        </a>
-        <a href="{% url 'word_to_pdf' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-word"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert Word to PDF
-        </a>
-        <a href="{% url 'ppt_to_pdf' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-powerpoint"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert PowerPoint to PDF
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-excel"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert Excel to PDF
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to PNG
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to JPG
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-powerpoint"></i>
-            </div>
-            Convert PDF to PowerPoint
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to PNG
-        </a>
+
+    <div class="other-tools-section">
+        <h2>Explore Our Tools Easily</h2>
+        <p>We offer a variety of conversion tools to help you with your file needs:</p>
+        <div class="tool-links">
+            <a href="{% url 'upload_image' %}" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                Convert WebP to JPG
+            </a>
+            <a href="{% url 'upload_image' %}" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                Convert PNG to JPG
+            </a>
+            <a href="{% url 'upload_image' %}" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                Convert PDF to JPG
+            </a>
+            <a href="{% url 'jpg-to-pdf' %}" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                Convert JPG to PDF
+            </a>
+            <a href="{% url 'word_to_pdf' %}" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                Convert Word to PDF
+            </a>
+            <a href="{% url 'ppt_to_pdf' %}" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-powerpoint"></i>
+                </div>
+                Convert PowerPoint to PDF
+            </a>
+            <a href="" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-excel"></i>
+                </div>
+                Convert Excel to PDF
+            </a>
+            <a href="" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                Convert PDF to PNG
+            </a>
+            <a href="" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                Convert PDF to JPG
+            </a>
+            <a href="" class="tool-link">
+                <div class="tool-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                Convert PDF to PowerPoint
+            </a>
+        </div>
     </div>
-</div>{% endblock %}
+</div>
+{% endblock %}
+
 {% block extra_js %}
     <script>
-   document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('upload-form');
-    const fileInput = document.getElementById('file-input');
-    const fileUpload = document.getElementById('file-upload');
-    const loading = document.getElementById('loading');
-    const result = document.getElementById('result');
-    const pdfPreview = document.getElementById('pdf-preview');
-    const downloadLink = document.getElementById('download-link');
-    const convertButton = document.getElementById('convert-button');
-    const errorDisplay = document.getElementById('error-display');
-
-    // Drag and drop functionality (if needed - add your code here)
-    // ... (your drag and drop code) ...
-
-
-    fileUpload.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            updateFileName(e.target.files[0].name);
-        } else {
-            updateFileName(""); // Clear file name display if no file selected
-        }
-    });
-
-    function updateFileName(fileName) {
-        fileUpload.textContent = fileName ? `Selected file: ${fileName}` : 'Click to select a file or drag and drop here';
-    }
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-
-        if (fileInput.files.length === 0) {
-            displayError('Please select a file first.');
-            return;
-        }
-
-        loading.style.display = 'block';
-        result.style.display = 'none';
-        errorDisplay.style.display = 'none';
-        convertButton.disabled = true;
-
-        fetch('{% url "ppt_to_pdf" %}', {
-            method: 'POST',
-            body: formData,
-            credentials: 'include', // Include credentials for CSRF (important, especially in development)
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.error || 'Server error');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            loading.style.display = 'none';
-            result.style.display = 'block';
-            convertButton.disabled = false;
-
-            pdfPreview.innerHTML = `<embed src="${data.pdf_url}" type="application/pdf" width="100%" height="600px" />`;
-            downloadLink.href = data.pdf_url;
-            downloadLink.style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            loading.style.display = 'none';
-            convertButton.disabled = false;
-            displayError(error.message);
+        document.getElementById('file').addEventListener('change', function() {
+            var fileName = this.files[0].name;
+            var label = document.getElementById('file-label');
+            label.textContent = fileName;
         });
-    });
-
-    function displayError(message) {
-        errorDisplay.textContent = message;
-        errorDisplay.style.display = 'block';
-    }
-});
-
     </script>
 {% endblock %}
