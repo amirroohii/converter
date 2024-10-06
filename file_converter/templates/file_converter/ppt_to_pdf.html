@@ -138,73 +138,7 @@
         </ol>
         <p>Note: Our tool supports both .ppt and .pptx formats. The converted PDF will preserve the layout, formatting, and animations of your original PowerPoint presentation to the extent possible in a static PDF format.</p>
     </div>
-
-    <div class="other-tools-section">
-        <h2>Explore Our Tools Easily</h2>
-        <p>We offer a variety of conversion tools to help you with your file needs:</p>
-        <div class="tool-links">
-            <a href="{% url 'upload_image' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert WebP to JPG
-            </a>
-            <a href="{% url 'upload_image' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert PNG to JPG
-            </a>
-            <a href="{% url 'upload_image' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert PDF to JPG
-            </a>
-            <a href="{% url 'jpg-to-pdf' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-image"></i>
-                </div>
-                Convert JPG to PDF
-            </a>
-            <a href="{% url 'word_to_pdf' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-word"></i>
-                </div>
-                Convert Word to PDF
-            </a>
-            <a href="{% url 'ppt_to_pdf' %}" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-powerpoint"></i>
-                </div>
-                Convert PowerPoint to PDF
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-excel"></i>
-                </div>
-                Convert Excel to PDF
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert PDF to PNG
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert PDF to JPG
-            </a>
-            <a href="" class="tool-link">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                Convert PDF to PowerPoint
-            </a>
-        </div>
-    </div>
+{% include 'include/tools_component.html' %}
 </div>
 {% endblock %}
 

@@ -74,43 +74,60 @@
             padding-left: 20px;
             text-align: left;
         }
-          .other-tools-section {
-        font-family: Arial, sans-serif;
-        text-align: center;
+
+  .success-message {
+        background-color: #ffffff; /* White background */
+        color: #333; /* Dark text color for readability */
+        border: 1px solid #ccc; /* Light gray border */
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px auto;
+        width: 80%; /* Adjust width as needed */
+        text-align: center; /* Center text */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     }
-    .tool-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 20px;
-    }
-    .tool-link {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: #333;
-        padding: 10px;
-        width: 120px;
-        transition: transform 0.3s ease;
-    }
-    .tool-link:hover {
-        transform: translateY(-5px);
-    }
-    .tool-icon {
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+    .success-title {
         font-size: 24px;
-        color: #007bff; /* آبی برای هماهنگی با طرح سایت */
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
-    .tool-name {
-        font-size: 14px;
-        text-align: center;
+
+    .success-subtitle {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .success-download {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #007bff; /* Blue button color */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none; /* Remove underline */
+        transition: background-color 0.3s;
+    }
+
+    .success-download:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .success-another {
+        display: inline-block; /* Center it */
+        padding: 10px 15px; /* Add padding to make it look like a button */
+        background-color: #007bff; /* Blue button color */
+        color: white; /* White text */
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */
+        text-decoration: none; /* Remove underline */
+        font-weight: bold; /* Make it bold */
+        margin-top: 10px; /* Space above */
+        transition: background-color 0.3s; /* Transition for hover effect */
+    }
+
+    .success-another:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        text-decoration: none; /* Keep it consistent */
     }
     </style>
 {% endblock %}
@@ -129,14 +146,20 @@
         </div>
         <button type="submit">Convert to PDF</button>
     </form>
-
-    <div id="success-message" style="display: none;">
-        <h1>Document Converted Successfully!</h1>
-        <h2>Converted PDF:</h2>
-        <a href="" id="download-link" download>Download PDF</a>
-        <br><br>
-        <a href="{% url 'word_to_pdf' %}">Convert another document</a>
-    </div>
+<div id="success-message" style="display: none;" class="success-message">
+    <h1 class="success-title">Document Converted Successfully!</h1>
+    <h2 class="success-subtitle">Converted PDF:</h2>
+    <a href="" id="download-link" class="success-download" download>Download PDF</a>
+    <br><br>
+    <a href="{% url 'word_to_pdf' %}" class="success-another">Convert another document</a>
+</div>
+{#    <div id="success-message" style="display: none;">#}
+{#        <h1>Document Converted Successfully!</h1>#}
+{#        <h2>Converted PDF:</h2>#}
+{#        <a href="" id="download-link" download>Download PDF</a>#}
+{#        <br><br>#}
+{#        <a href="{% url 'word_to_pdf' %}">Convert another document</a>#}
+{#    </div>#}
 
     <div class="conversion-instructions">
         <h2>How to Convert Word to PDF</h2>
@@ -151,100 +174,7 @@
         <p>Note: Our tool supports both .doc and .docx formats. The converted PDF will maintain the formatting of your original Word document as closely as possible.</p>
     </div>
  <div class="container">
-<div class="other-tools-section">
-    <h2>Explore Our Tools Easily</h2>
-    <p>We offer a variety of conversion tools to help you with your file needs:</p>
-    <div class="tool-links">
-        <a href="{% url 'upload_image' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-image"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert WebP to JPG
-        </a>
-        <a href="{% url 'upload_image' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-image"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PNG to JPG
-        </a>
-        <a href="{% url 'upload_image' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to JPG
-        </a>
-        <a href="{% url 'jpg-to-pdf' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-image"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert JPG to PDF
-        </a>
-        <a href="{% url 'word_to_pdf' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-word"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert Word to PDF
-        </a>
-        <a href="{% url 'ppt_to_pdf' %}" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-powerpoint"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert PowerPoint to PDF
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-excel"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-pdf"></i>
-            </div>
-            Convert Excel to PDF
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to PNG
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to JPG
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-powerpoint"></i>
-            </div>
-            Convert PDF to PowerPoint
-        </a>
-        <a href="" class="tool-link">
-            <div class="tool-icon">
-                <i class="fas fa-file-pdf"></i>
-                <i class="fas fa-arrow-right"></i>
-                <i class="fas fa-file-image"></i>
-            </div>
-            Convert PDF to PNG
-        </a>
-    </div>
-</div>
+{% include 'include/tools_component.html' %}
 {% endblock %}
 
 {% block extra_js %}

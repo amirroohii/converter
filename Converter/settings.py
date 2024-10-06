@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'image_converter',
     'file_converter',
-    'home'
+    'home',
+    'merge_pdf',
 ]
 
 

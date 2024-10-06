@@ -1,0 +1,193 @@
+{% extends 'main.html' %}
+
+{% block page_title  %}EXCEL TO PDF{% endblock %}
+
+{% block extra_css %}
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .file-upload {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 600px; /* Set a maximum width */
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            margin: 20px auto;
+            background-color: #f9f9f9; /* Light gray background */
+            transition: background-color 0.3s;
+        }
+
+        .file-upload:hover {
+            background-color: #f1f1f1; /* Slightly darker gray on hover */
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Upload Excel File</h1>
+    <form method="post" enctype="multipart/form-data" id="upload-form">
+        {% csrf_token %}
+        <div id="drop-area" class="file-upload">
+            <p>Drag & drop your Excel file here or click to select file</p>
+            <input type="file" id="fileElem" name="file" accept=".xls,.xlsx">
+        </div>
+        <button type="submit">Convert to PDF</button>
+    </form>
+
+    <!-- Success message -->
+    <div id="success-message" style="display: none; margin-top: 20px; color: #070505;">
+        Conversion completed successfully!
+    </div>
+
+    <!-- Download button styled properly -->
+    <button id="download-button" style="display: none; margin-top: 10px; padding: 10px 20px; background-color: #0056b3; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background-color 0.3s;">
+        Download your PDF
+    </button>
+</div>
+        <!-- Conversion Instructions -->
+        <div class="conversion-instructions" >
+            <h2>How to Convert Excel to PDF</h2>
+            <ol style="text-align: left">
+                <p>Follow these simple steps to convert your Excel files to PDF format:</p>
+                <li>Select the Excel file (.xls or .xlsx) you want to convert by dragging and dropping it into the upload area or by clicking to browse your files.</li>
+                <li>Once your file is selected, click the "Convert to PDF" button to start the conversion process.</li>
+                <li>Wait for the conversion to complete. This usually takes a few seconds, depending on the size of your file.</li>
+                <li>After the conversion is finished, a download link for your PDF file will appear below.</li>
+                <li>Click the download link to save your newly converted PDF file to your device.</li>
+            </ol>
+            <p>Note: Our tool supports both .xls and .xlsx formats. The converted PDF will maintain the formatting of your original Excel file as closely as possible.</p>
+        </div>
+
+
+<script>
+    let dropArea = document.getElementById('drop-area');
+    let fileInput = document.getElementById('fileElem');
+    let uploadForm = document.getElementById('upload-form');
+    let successMessage = document.getElementById('success-message');
+    let downloadButton = document.getElementById('download-button');
+
+    // Prevent default behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    // Highlight drop area on drag events
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false);
+    });
+
+    // Remove highlight when leaving the drop area
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false);
+    dropArea.addEventListener('click', () => fileInput.click());
+
+    // Handle file input change
+    fileInput.addEventListener('change', function() {
+        const fileName = this.files.length > 0 ? this.files[0].name : 'No file selected';
+        dropArea.querySelector('p').textContent = `Selected file: ${fileName}`;
+    });
+
+    // Handle form submission
+    uploadForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        const formData = new FormData(uploadForm);
+
+        fetch(uploadForm.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                successMessage.style.display = 'block'; // Show success message
+                downloadButton.style.display = 'block'; // Show download button
+                downloadButton.onclick = function() {
+                    window.location.href = data.download_url; // Redirect to the download URL
+                };
+            } else {
+                alert('Conversion failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function highlight() {
+        dropArea.classList.add('hover');
+    }
+
+    function unhighlight() {
+        dropArea.classList.remove('hover');
+    }
+
+    function handleDrop(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            fileInput.files = files; // Set the file input's files
+            dropArea.querySelector('p').textContent = `Selected file: ${files[0].name}`; // Update the label
+        }
+    }
+</script>
+    {% include 'include/tools_component.html' %}
+{% endblock %}

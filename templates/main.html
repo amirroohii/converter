@@ -330,10 +330,10 @@ nav a:hover {
                 <h3>CONVERT TO PDF</h3>
                 <ul>
                     <li><a href="{% url 'word_to_pdf' %}"><i class="fas fa-file-word"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> Word to PDF</a></li>
-                    <li><a href="#"><i class="fas fa-file-excel"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> Excel to PDF</a></li>
+                    <li><a href="{% url 'x_to_pdf' %}"><i class="fas fa-file-excel"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> Excel to PDF</a></li>
                     <li><a href="{% url 'ppt_to_pdf' %}"><i class="fas fa-file-powerpoint"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> PowerPoint to PDF</a></li>
                     <li><a href="{% url 'jpg-to-pdf' %}"><i class="fas fa-file-image"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> JPG to PDF</a></li>
-                    <li><a href="#"><i class="fas fa-drafting-compass"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> AutoCAD to PDF</a></li>
+{#                    <li><a href="#"><i class="fas fa-drafting-compass"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-pdf"></i> AutoCAD to PDF</a></li>#}
                 </ul>
             </div>
             <div class="menu-column">
@@ -373,7 +373,7 @@ nav a:hover {
                 <ul>
                     <li><a href="{% url 'upload_image' %}" class="tool-link"><i class="fas fa-file-image"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-image"></i> Convert WebP to JPG</a></li>
                     <li><a href="{% url 'upload_image' %}" class="tool-link"><i class="fas fa-file-image"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-image"></i> Convert PNG to JPG</a></li>
-                    <li><a href="{% url 'upload_image' %}" class="tool-link"><i class="fas fa-file-pdf"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-image"></i> Convert PDF to JPG</a></li>
+                    <li><a href="#" class="tool-link"><i class="fas fa-file-pdf"></i><i class="fas fa-arrow-right"></i><i class="fas fa-file-image"></i> Convert PDF to JPG</a></li>
                 </ul>
             </div>
         </div>
@@ -456,7 +456,7 @@ nav a:hover {
         </div>
     </div>
 </div>
-   {% include 'footer_component.html' %}
+   {% include 'include/footer_component.html' %}
     {% block extra_js %}{% endblock %}
 </body>
 </html>
