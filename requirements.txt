@@ -47,3 +47,4 @@ virtualenv==20.26.3
 Werkzeug==3.0.3
 XlsxWriter==3.2.0
 zipp==3.18.1
+whitenoise
